@@ -5,8 +5,7 @@ import com.github.rolandhe.seesaw.callback.BodyProcessor;
 import java.nio.channels.AsynchronousSocketChannel;
 
 /**
- * @author hexiufeng
- * @date 2018/6/12下午7:44
+ * @author rolandhe
  */
 class Context {
   final AsynchronousSocketChannel channel;

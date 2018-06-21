@@ -21,12 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author hexiufeng
- * @date 2018/6/11下午3:24
+ * @author rolandhe
  */
-public final class AsinkClient {
+public final class SeesawClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AsinkClient.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SeesawClient.class);
 
   private long connectTimout = 3000L;
   private long soTimeout = 2000L;
@@ -61,20 +60,20 @@ public final class AsinkClient {
         if (future != null) {
           future.cancel(true);
         }
-        AsinkUtils.safeClose(channel);
+        SeesawUtils.safeClose(channel);
         throw new RuntimeException(e);
       }
     }
   };
 
-  public AsinkClient(String name, ChannelPool channelPool, AsynchronousChannelGroup channelGroup) {
+  public SeesawClient(String name, ChannelPool channelPool, AsynchronousChannelGroup channelGroup) {
     this.name = name;
     this.channelPool = channelPool;
     this.channelGroup = channelGroup;
     this.createGroup = false;
   }
 
-  public AsinkClient(String name, ChannelPool channelPool, int threadSize) {
+  public SeesawClient(String name, ChannelPool channelPool, int threadSize) {
     this.name = name;
     try {
       AsynchronousChannelGroup asynchronousChannelGroup = AsynchronousChannelGroup
@@ -102,7 +101,7 @@ public final class AsinkClient {
     public void completed(Long result, ClientWriteContext attachment) {
       if (result == -1) {
         LOGGER.info("READ_LEN_HANDLER peer reset.");
-        AsinkUtils.disposeChannel(attachment, true);
+        SeesawUtils.disposeChannel(attachment, true);
         return;
       }
       if (attachment.hasRemaining()) {
@@ -125,7 +124,7 @@ public final class AsinkClient {
     @Override
     public void failed(Throwable exc, ClientWriteContext attachment) {
       LOGGER.info("WRITE_BODY_HANDLER failed.", exc);
-      AsinkUtils.disposeChannel(attachment, true);
+      SeesawUtils.disposeChannel(attachment, true);
     }
   };
 
@@ -135,7 +134,7 @@ public final class AsinkClient {
     public void completed(Integer result, ClientReadContext attachment) {
       if (result == -1) {
         LOGGER.info("READ_LEN_HANDLER peer reset.");
-        AsinkUtils.disposeChannel(attachment, true);
+        SeesawUtils.disposeChannel(attachment, true);
         return;
       }
       if (attachment.readBuffer.hasRemaining()) {
@@ -145,7 +144,7 @@ public final class AsinkClient {
       attachment.readBuffer.flip();
       int len = attachment.readBuffer.getInt();
       if (len == 0) {
-        AsinkUtils.disposeChannel(attachment, true);
+        SeesawUtils.disposeChannel(attachment, true);
         return;
       }
       ByteBuffer byteBuffer = ByteBuffer.allocate(len);
@@ -159,7 +158,7 @@ public final class AsinkClient {
     @Override
     public void failed(Throwable exc, ClientReadContext attachment) {
       LOGGER.info("READ_LEN_HANDLER failed.", exc);
-      AsinkUtils.disposeChannel(attachment, true);
+      SeesawUtils.disposeChannel(attachment, true);
     }
   };
 
@@ -169,7 +168,7 @@ public final class AsinkClient {
     public void completed(Integer result, ClientReadContext attachment) {
       if (result == -1) {
         LOGGER.info("READ_BODY_HANDLER peer reset.");
-        AsinkUtils.disposeChannel(attachment, true);
+        SeesawUtils.disposeChannel(attachment, true);
         return;
       }
       if (attachment.readBuffer.hasRemaining()) {
@@ -197,14 +196,14 @@ public final class AsinkClient {
         attachment.channelPool.giveBack(attachment.stateChannel);
       } catch (RuntimeException e) {
         LOGGER.info("READ_BODY_HANDLER to WAIT_HANDLER", e);
-        AsinkUtils.disposeChannel(attachment, true);
+        SeesawUtils.disposeChannel(attachment, true);
       }
     }
 
     @Override
     public void failed(Throwable exc, ClientReadContext attachment) {
       LOGGER.info("READ_BODY_HANDLER failed.", exc);
-      AsinkUtils.disposeChannel(attachment, true);
+      SeesawUtils.disposeChannel(attachment, true);
     }
   };
 
@@ -232,7 +231,7 @@ public final class AsinkClient {
       if (result == -1) {
         LOGGER.info("WAIT_HANDLER peer reset.");
         boolean using = waitContext.stateChannel.isThisStatus(StateChannel.Status.USING);
-        AsinkUtils.disposeChannel(convertWaitContext(waitContext, using), using);
+        SeesawUtils.disposeChannel(convertWaitContext(waitContext, using), using);
         return;
       }
 
@@ -272,13 +271,13 @@ public final class AsinkClient {
                     WAIT_HANDLER);
           } catch (RuntimeException e) {
             LOGGER.info("WAIT_HANDLER  continue to read length .", exc);
-            AsinkUtils.disposeChannel(convertWaitContext(waitContext, true), true);
+            SeesawUtils.disposeChannel(convertWaitContext(waitContext, true), true);
           }
           return;
         }
       }
       boolean using = waitContext.stateChannel.isThisStatus(StateChannel.Status.USING);
-      AsinkUtils.disposeChannel(waitContext, using);
+      SeesawUtils.disposeChannel(waitContext, using);
     }
   };
 
@@ -336,7 +335,7 @@ public final class AsinkClient {
             stateChannel.channel.isOpen(), hasNext);
         channelPool.release(stateChannel, true);
         stateChannel.sendCallback = null;
-        AsinkUtils.safeClose(stateChannel.channel);
+        SeesawUtils.safeClose(stateChannel.channel);
         if (!hasNext) {
           sendCallback.callback(null, true);
           break;

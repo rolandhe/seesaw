@@ -12,8 +12,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author hexiufeng
- * @date 2018/6/11下午5:08
+ * @author rolandhe
  */
 public final class ChannelPool {
 

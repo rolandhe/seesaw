@@ -7,8 +7,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
 /**
- * @author hexiufeng
- * @date 2018/6/14下午5:41
+ * @author rolandhe
  */
 class ClientReadContext extends ServerReadContext implements ClientContext {
 
@@ -29,7 +28,7 @@ class ClientReadContext extends ServerReadContext implements ClientContext {
   <T extends ServerReadContext> boolean read(CompletionHandler<Integer, T> handler,boolean isUsing) {
     boolean isRead = super.read(handler);
     if(!isRead) {
-      AsinkUtils.disposeChannel(this,isUsing);
+      SeesawUtils.disposeChannel(this,isUsing);
     }
     return  isRead;
   }

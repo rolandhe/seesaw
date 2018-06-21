@@ -10,8 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author hexiufeng
- * @date 2018/6/12下午7:45
+ * @author rolandhe
  */
 class ServerWriteContext extends Context {
   private static final Logger LOGGER = LoggerFactory.getLogger(ServerWriteContext.class);

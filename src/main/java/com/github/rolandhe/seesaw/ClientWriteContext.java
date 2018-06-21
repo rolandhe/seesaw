@@ -7,8 +7,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
 /**
- * @author hexiufeng
- * @date 2018/6/14下午5:40
+ * @author rolandhe
  */
 class ClientWriteContext extends ServerWriteContext implements  ClientContext{
 
@@ -28,7 +27,7 @@ class ClientWriteContext extends ServerWriteContext implements  ClientContext{
   <T extends ServerWriteContext> boolean write(CompletionHandler<Long, T> handler,boolean isUsing) {
     boolean isWrited = super.write(handler);
     if(!isWrited) {
-      AsinkUtils.disposeChannel(this,isUsing);
+      SeesawUtils.disposeChannel(this,isUsing);
     }
     return isWrited;
   }

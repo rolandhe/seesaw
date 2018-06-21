@@ -6,12 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author hexiufeng
- * @date 2018/6/14下午5:47
+ * @author rolandhe
  */
-public class AsinkUtils {
-  private static final Logger LOGGER = LoggerFactory.getLogger(AsinkUtils.class);
-  private AsinkUtils() {
+public class SeesawUtils {
+  private static final Logger LOGGER = LoggerFactory.getLogger(SeesawUtils.class);
+  private SeesawUtils() {
 
   }
 

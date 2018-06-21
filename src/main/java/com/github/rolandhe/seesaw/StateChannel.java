@@ -6,8 +6,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.Semaphore;
 
 /**
- * @author hexiufeng
- * @date 2018/6/11下午5:09
+ * @author rolandhe
  */
 class StateChannel {
 

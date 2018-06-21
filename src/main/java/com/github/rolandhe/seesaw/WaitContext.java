@@ -5,8 +5,7 @@ import com.github.rolandhe.seesaw.callback.ClientSendCallback;
 import java.nio.ByteBuffer;
 
 /**
- * @author hexiufeng
- * @date 2018/6/15上午12:22
+ * @author rolandhe
  */
 class WaitContext implements ClientContext {
 

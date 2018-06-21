@@ -4,8 +4,7 @@ package com.github.rolandhe.seesaw;
 import com.github.rolandhe.seesaw.callback.ClientSendCallback;
 
 /**
- * @author hexiufeng
- * @date 2018/6/14下午5:53
+ * @author rolandhe
  */
 public interface ClientContext {
   StateChannel getStateChannel();

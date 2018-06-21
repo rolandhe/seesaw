@@ -16,13 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author hexiufeng
- * @date 2018/6/8下午5:04
+ * @author rolandhe
  */
-public final class AsinkServer {
-  private static final Logger LOGGER = LoggerFactory.getLogger(AsinkServer.class);
+public final class SeesawServer {
+  private static final Logger LOGGER = LoggerFactory.getLogger(SeesawServer.class);
 
-  private String name = "asink-server";
+  private String name = "Seesaw-Server";
   private long timeout = 5000L;
   private long maxLive = 600L * 1000L;
   private int port = 5000;
