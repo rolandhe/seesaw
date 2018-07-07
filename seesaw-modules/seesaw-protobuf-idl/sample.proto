@@ -1,0 +1,19 @@
+package seesaw.package;
+option java_package = "com.github.rolandhe.seesaw.protobuf";
+option java_generic_services = true;
+
+message FooRequest {
+   required int64 id = 1;
+   required string name = 2;
+}
+
+message FooResponse {
+   required bool status = 1;
+   optional string message = 2;
+}
+
+service FooService {
+
+  rpc doRequest (FooRequest) returns (FooResponse);
+
+}
