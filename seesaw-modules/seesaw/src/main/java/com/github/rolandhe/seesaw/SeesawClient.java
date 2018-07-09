@@ -6,6 +6,7 @@ import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.AsynchronousChannelGroup;
+import java.nio.channels.AsynchronousCloseException;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.channels.InterruptedByTimeoutException;
@@ -259,9 +260,13 @@ public final class SeesawClient {
 
     @Override
     public void failed(Throwable exc, WaitContext waitContext) {
-
-      LOGGER.info("WAIT_HANDLER failed." + waitContext.stateChannel.channel.isOpen() + System
-          .identityHashCode(waitContext.stateChannel.channel), exc);
+      if(exc instanceof AsynchronousCloseException) {
+        LOGGER.debug("WAIT_HANDLER failed." + waitContext.stateChannel.channel.isOpen() + System
+                .identityHashCode(waitContext.stateChannel.channel), exc);
+      } else {
+        LOGGER.info("WAIT_HANDLER failed." + waitContext.stateChannel.channel.isOpen() + System
+                .identityHashCode(waitContext.stateChannel.channel), exc);
+      }
       if (exc instanceof InterruptedByTimeoutException) {
         if (waitContext.stateChannel.isThisStatus(StateChannel.Status.USING)) {
           try {
@@ -417,14 +422,14 @@ public final class SeesawClient {
     }
   }
 
-  public synchronized void destory() {
+  public synchronized void destroy() {
     if (this.createGroup) {
       try {
         this.channelGroup.shutdownNow();
       } catch (IOException e) {
         // ignore
       } catch (RuntimeException e) {
-        LOGGER.info("channelGroup.shutdownNow error", e);
+        LOGGER.info("channelGroup.shutdownNow error.", e);
       }
       try {
         this.channelGroup.awaitTermination(2000L, TimeUnit.MILLISECONDS);

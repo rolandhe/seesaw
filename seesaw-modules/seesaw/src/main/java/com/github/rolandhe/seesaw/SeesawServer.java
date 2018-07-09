@@ -30,6 +30,12 @@ public final class SeesawServer {
   private AsynchronousChannelGroup threadGroup;
   private AsynchronousServerSocketChannel currentListener;
 
+  public SeesawServer(String serverName,int port, int threadCount) {
+    this.name = serverName;
+    this.port = port;
+    this.threadCount = threadCount;
+  }
+
 
   private static final CompletionHandler<Integer, ServerReadContext> READ_LEN_HANDLER = new CompletionHandler<Integer, ServerReadContext>() {
 
@@ -176,7 +182,7 @@ public final class SeesawServer {
       public void completed(AsynchronousSocketChannel ch, Void att) {
         listener.accept(null, this);
 
-        handle(ch, bodyProcessor, timeout, maxLive, false);
+        handle(ch, bodyProcessor, getTimeout(), getMaxLive(), false);
       }
 
       public void failed(Throwable exc, Void att) {
@@ -216,5 +222,21 @@ public final class SeesawServer {
     if(!readContext.read(READ_LEN_HANDLER)) {
       safeClose(ch);
     }
+  }
+
+  public long getTimeout() {
+    return timeout;
+  }
+
+  public void setTimeout(long timeout) {
+    this.timeout = timeout;
+  }
+
+  public long getMaxLive() {
+    return maxLive;
+  }
+
+  public void setMaxLive(long maxLive) {
+    this.maxLive = maxLive;
   }
 }

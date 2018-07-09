@@ -13,6 +13,8 @@
     <modules>
         <module>seesaw</module>
         <module>seesaw-protobuf-rpc</module>
+        <module>examples/seesaw-rpc-server</module>
+        <module>examples/seesaw-rpc-client</module>
     </modules>
 
     <distributionManagement>
