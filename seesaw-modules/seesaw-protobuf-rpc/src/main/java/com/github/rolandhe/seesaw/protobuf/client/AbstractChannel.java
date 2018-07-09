@@ -122,6 +122,6 @@ public abstract class AbstractChannel {
             SeesawProtobufWrapper.Headers headers = HeaderUtil.convertHeaders(headerContext.getInHeader());
             builder.setHeaders(headers);
         }
-        return builder.build().toByteArray();
+        return builder.setProtocol(SeesawProtobufWrapper.ProtocolType.BIN).build().toByteArray();
     }
 }

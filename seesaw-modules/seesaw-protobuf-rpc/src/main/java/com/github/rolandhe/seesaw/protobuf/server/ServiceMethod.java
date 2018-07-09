@@ -27,7 +27,7 @@ class ServiceMethod implements ProtobufMethod {
 
     @Override
     public Message call(SeesawProtobufWrapper.RequestPacket requestPacket, RpcControllerWithHeaderContext rpcControllerWithHeaderContext) throws ServiceException {
-        Parser<? extends Message> parser = methodDescriptor.getInputType().toProto().getParserForType();
+        Parser<? extends Message> parser = service.getRequestPrototype(methodDescriptor).getParserForType();
         Message request = null;
         try {
             request = parser.parseFrom(requestPacket.getBody());
